@@ -1,6 +1,8 @@
 /*
 return an array of numbers of each floor the elevator stops on
 
+lift stops at a floor even while full
+
 while not done
   for each floor in queues
     for each personNum on elevator
@@ -8,8 +10,8 @@ while not done
         add path to end of final path list
         move person from elevator to floor
     for each personNum on floor
+      add path to end of final path list
       if personNum is going up and elevator isnt full
-        add path to end of final path list
         move personNum from floor to elevator
         decrement elevatorspace 
   
@@ -32,32 +34,72 @@ let areWeDone = function (currentQ) {
 
 var theLift = function (queues, capacity) {
   console.log(queues, capacity)
-  let currentQ = queues
+  let currentQUp = queues
+  let currentQDown = queues
   let finalPath = []
-  let done = areWeDone(currentQ)
-  while (!done) {
-    let elevatorSpace = capacity
+  let done = false
+  let test = 0
+  while(!done) {
+    done = areWeDone(currentQUp)
+    console.log(currentQUp)
     let elevatorRiders = []
     // start first trip up
-    for (let floorNum = 0; floorNum < currentQ.length; floorNum++) {
-      let floor = currentQ[floorNum]
+    for (let floorNum = 0; floorNum < currentQUp.length; floorNum++) {
+      let floor = currentQUp[floorNum]
+      console.log(floor)
+      if(floor.length > 0 ){
+        finalPath.push(floorNum)
+      }
       for (let j = 0; j < floor.length; j++) {
-        if(elevatorRiders.includes(floorNum)){
-          finalPath.push(floorNum)
-          for(let passengerNum = 0; passengerNum < elevatorRiders.length; elevatorRiders++){
-            let currentPassenger = elevatorRiders[passengerNum]
-            if(currentPassenger === floorNum){
-
-            }
-          }
-        }
-        if (elevatorSpace > 0) {
-          finalPath.push(floorNum)
-          elevatorRiders.push(floor.shift())
-          console.log(elevatorRiders, floor)
-          elevatorSpace--
+        let personNum = floor[j]
+        console.log(personNum, floorNum, capacity, j, personNum)
+        if(personNum > floorNum && capacity !== 0){
+          capacity--
+          elevatorRiders.push(floor.splice(j,1)[0])
+          j--
         }
       }
+      for (let k = 0; k < elevatorRiders.length; k++ ){
+        let elevatorRiderNum = elevatorRiders[k]
+        if(elevatorRiderNum === floorNum){
+          currentQUp[floorNum].push(elevatorRiders.splice(k,1)[0])
+          k--
+        }
+      }
+      if(elevatorRiders.includes(floorNum)){
+        finalPath.push(floorNum)
+      }
     }
+    // start first trip down
+//     for (let floorNum = currentQDown.length-1; floorNum >= 0; floorNum--) {
+//       let floor = currentQDown[floorNum]
+//       console.log(floor)
+//       if(floor.length > 0 ){
+//         finalPath.push(floorNum)
+//       }
+//       for (let j = 0; j < floor.length; j++) {
+//         let personNum = floor[j]
+//         console.log(personNum, floorNum, capacity, j, personNum)
+//         if(personNum < floorNum && capacity !== 0){
+//           capacity--
+//           elevatorRiders.push(floor.splice(j,1)[0])
+//           j--
+//         }
+//       }
+//       for (let k = 0; k < elevatorRiders.length; k++ ){
+//         let elevatorRiderNum = elevatorRiders[k]
+//         if(elevatorRiderNum === floorNum){
+//           currentQDown[floorNum].push(elevatorRiders.splice(k,1)[0])
+//           k--
+//         }
+//       }
+//       if(elevatorRiders.includes(floorNum)){
+//         finalPath.push(floorNum)
+//       }
+//     }
+    
+  test++
   }
+  console.log(finalPath)
+  return [0,...finalPath,0]
 }
