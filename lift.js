@@ -51,7 +51,9 @@ var theLift = function (queues, capacity) {
         console.log(personNum, floorNum)
         if(personNum > floorNum && !stoppedHere){
           stoppedHere = true
-          finalPath.push(floorNum)
+          if(finalPath[finalPath.length-1]!==floorNum){
+            finalPath.push(floorNum)
+          }
         }
         if(personNum > floorNum && capacity !== 0){
           capacity--
@@ -73,7 +75,7 @@ var theLift = function (queues, capacity) {
         }
       }
     }
-    
+    console.log(currentQ)
     console.log("start down")
     // start first trip down
     for (let floorNum = currentQ.length - 1; floorNum >= 0; floorNum--) {
@@ -85,7 +87,9 @@ var theLift = function (queues, capacity) {
         console.log(personNum, floorNum)
         if(personNum < floorNum && !stoppedHere){
           stoppedHere = true
-          finalPath.push(floorNum)
+          if(finalPath[finalPath.length-1]!==floorNum){
+            finalPath.push(floorNum)
+          }
         }
         if(personNum < floorNum && capacity !== 0){
           capacity--
