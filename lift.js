@@ -44,12 +44,10 @@ var theLift = function (queues, capacity) {
     // start first trip up
     for (let floorNum = 0; floorNum < currentQ.length; floorNum++) {
       let floor = currentQ[floorNum]
-      console.log(floor)
       let stoppedHere = false
       // loop through personNums waiting on floors
       for (let j = 0; j < floor.length; j++) {
         let personNum = floor[j]
-        console.log(personNum, floorNum, capacity, j, personNum)
         if(personNum > floorNum && !stoppedHere){
           stoppedHere = true
           finalPath.push(floorNum)
@@ -72,9 +70,8 @@ var theLift = function (queues, capacity) {
         }
       }
     }
-    console.log(finalPath)
-    done = areWeDone(currentQ)
-    console.log(elevatorRiders)
+    
+    
     // start first trip down
     for (let floorNum = currentQ.length - 1; floorNum > 0; floorNum--) {
       let floor = currentQ[floorNum]
@@ -94,8 +91,7 @@ var theLift = function (queues, capacity) {
         }
       }
       
-      if(elevatorRiders.includes(floorNum)){
-        console.log('hi')
+      if(elevatorRiders.includes(floorNum) && !stoppedHere){
         finalPath.push(floorNum)
       }
       // loop through elevatorRiders and check if Rider needs to get off
@@ -107,8 +103,11 @@ var theLift = function (queues, capacity) {
         }
       }
     }
-  test++
+    done = areWeDone(currentQ)
   }
-  console.log(finalPath)
-  return [0,...finalPath,0]
+  if(finalPath[0]===0){
+    return [...finalPath,0]
+  } else {
+    return [0,...finalPath,0]
+  }
 }
