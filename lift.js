@@ -34,17 +34,16 @@ let areWeDone = function (currentQ) {
 
 var theLift = function (queues, capacity) {
   console.log(queues, capacity)
-  let currentQUp = queues
-  let currentQDown = queues
+  let currentQ = queues
   let finalPath = []
   let done = false
   let test = 0
   while(!done) {
-    console.log(currentQUp)
+    console.log(currentQ)
     let elevatorRiders = []
     // start first trip up
-    for (let floorNum = 0; floorNum < currentQUp.length; floorNum++) {
-      let floor = currentQUp[floorNum]
+    for (let floorNum = 0; floorNum < currentQ.length; floorNum++) {
+      let floor = currentQ[floorNum]
       console.log(floor)
       let stoppedHere = false
       // loop through personNums waiting on floors
@@ -68,17 +67,17 @@ var theLift = function (queues, capacity) {
       for (let k = 0; k < elevatorRiders.length; k++ ){
         let elevatorRiderNum = elevatorRiders[k]
         if(elevatorRiderNum === floorNum){
-          currentQUp[floorNum].push(elevatorRiders.splice(k,1)[0])
+          currentQ[floorNum].push(elevatorRiders.splice(k,1)[0])
           k--
         }
       }
     }
     console.log(finalPath)
-    done = areWeDone(currentQUp)
+    done = areWeDone(currentQ)
     console.log(elevatorRiders)
     // start first trip down
-    for (let floorNum = currentQUp.length - 1; floorNum > 0; floorNum--) {
-      let floor = currentQUp[floorNum]
+    for (let floorNum = currentQ.length - 1; floorNum > 0; floorNum--) {
+      let floor = currentQ[floorNum]
       let stoppedHere = false
       // loop through personNums waiting on floors
       for (let j = 0; j < floor.length; j++) {
@@ -103,7 +102,7 @@ var theLift = function (queues, capacity) {
       for (let k = 0; k < elevatorRiders.length; k++ ){
         let elevatorRiderNum = elevatorRiders[k]
         if(elevatorRiderNum === floorNum){
-          currentQUp[floorNum].push(elevatorRiders.splice(k,1)[0])
+          currentQ[floorNum].push(elevatorRiders.splice(k,1)[0])
           k--
         }
       }
